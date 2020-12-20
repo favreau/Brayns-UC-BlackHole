@@ -70,7 +70,7 @@ include_directories(
 )
 
 set(${NAME}_LINK_LIBRARIES
-    PUBLIC ${OSPRAY_LIBRARIES} pqxx
+    PUBLIC ${OSPRAY_LIBRARIES} 
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
             braynsOSPRayEngine
 )
