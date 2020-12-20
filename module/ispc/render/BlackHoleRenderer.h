@@ -40,10 +40,6 @@ public:
 private:
     // Shading attributes
     brayns::obj::BlackHoleMaterial *_bgMaterial;
-    std::vector<void *> _lightArray;
-    void **_lightPtr;
-    ospray::Data *_lightData;
-
     float _timestamp{0.f};
     float _exposure{1.f};
     ospray::uint32 _nbDisks;

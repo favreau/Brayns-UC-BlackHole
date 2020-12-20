@@ -33,27 +33,16 @@ void BlackHoleRenderer::commit()
     Renderer::commit();
 
     _bgMaterial = (brayns::obj::BlackHoleMaterial *)getParamObject("bgMaterial", nullptr);
-
-    _lightData = (ospray::Data *)getParamData("lights");
-    _lightArray.clear();
-
-    if (_lightData)
-        for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(((ospray::Light **)_lightData->data)[i]->getIE());
-
-    _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
-
     _exposure = getParam1f("exposure", 1.f);
     _timestamp = getParam1f("timestamp", 0.f);
     _grid = getParam("grid", false);
-
     _nbDisks = getParam1i("nbDisks", 20);
     _diskRotationSpeed = getParam1f("diskRotationSpeed", 3.f);
     _diskTextureLayers = getParam1i("diskTextureLayers", 12);
     _blackHoleSize = getParam1f("blackHoleSize", 0.3f);
-    // Renderer
-    ispc::BlackHoleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr, _lightArray.size(),
-                                _exposure, _nbDisks, _grid, _diskRotationSpeed, _diskTextureLayers, _blackHoleSize);
+
+    ispc::BlackHoleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _exposure, _nbDisks, _grid,
+                                _diskRotationSpeed, _diskTextureLayers, _blackHoleSize);
 }
 
 BlackHoleRenderer::BlackHoleRenderer()

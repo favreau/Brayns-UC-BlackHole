@@ -22,20 +22,14 @@
 
 // ospray
 #include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/lights/Light.ih>
 #include <ospray/SDK/render/Renderer.ih>
-
 
 struct BlackHoleRenderer
 {
     Renderer super;
 
     // Rendering attributes
-
     BlackHoleMaterial* bgMaterial;
-    const uniform Light* uniform* uniform lights;
-    uint32 numLights;
-
     float exposure;
     float timestamp;
     uint32 nbDisks;
