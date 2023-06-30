@@ -9,8 +9,8 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME BRAYNSBLACKHOLE)
-set(LIBRARY_NAME braynsBlackHole)
+set(NAME BLACKHOLE)
+set(LIBRARY_NAME BlackHole)
 project(${NAME} VERSION 0.1.0)
 set(${NAME}_VERSION_ABI 1)
 
@@ -21,7 +21,8 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14) # C++ 14
 
-find_package(Brayns REQUIRED SYSTEM)
+find_package(Threads REQUIRED SYSTEM)
+find_package(Platform REQUIRED SYSTEM)
 find_package(ospray REQUIRED SYSTEM)
 
 include(ispc)
@@ -70,10 +71,11 @@ include_directories(
 )
 
 set(${NAME}_LINK_LIBRARIES
-    PUBLIC ${OSPRAY_LIBRARIES} 
-    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-            braynsOSPRayEngine
+    PUBLIC ${OSPRAY_LIBRARIES}
+    PRIVATE OSPRayEngine
 )
+
+message(STATUS ${OSPRAY_LIBRARIES})
 
 add_library(
     ${LIBRARY_NAME}

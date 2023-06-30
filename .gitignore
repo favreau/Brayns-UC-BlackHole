@@ -12,8 +12,8 @@
 *.pyc
 __pycache__
 .idea
-debug
-release
+Debug
+Release
 build
 dist
 .ipynb_checkpoints

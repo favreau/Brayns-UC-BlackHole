@@ -1,38 +1,36 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
-
 #pragma once
 
 #include <iostream>
 
-#define PLUGIN_ERROR std::cerr << "[ERROR] [BLACK HOLE] "
-#define PLUGIN_WARN std::cerr << "[WARN ] [BLACK HOLE] "
-#define PLUGIN_INFO std::cout << "[INFO ] [BLACK HOLE] "
-#ifdef NDEBUG
-#define PLUGIN_DEBUG \
-    if (false)       \
-    std::cout
-#else
-#define PLUGIN_DEBUG std::cout << "[DEBUG] [BLACK HOLE] "
-#endif
+namespace blackhole
+{
+#define PLUGIN_PREFIX "BLACK_HOLE      "
 
-#define PLUGIN_THROW(exc)                        \
-    {                                            \
-        PLUGIN_ERROR << exc.what() << std::endl; \
-        throw exc;                               \
+#define PLUGIN_ERROR(message) std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_WARN(message) std::cerr << "W [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_INFO(message) std::cout << "I [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_REGISTER_ENDPOINT(__msg)         \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering end-point '" << __msg << "'" << std::endl;
+#define PLUGIN_REGISTER_RENDERER(__msg)         \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering renderer '" << __msg << "'" << std::endl;
+#define PLUGIN_REGISTER_LOADER(__msg)           \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering loader '" << __msg << "'" << std::endl;
+#define PLUGIN_REGISTER_CAMERA(__msg)           \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering camera '" << __msg << "'" << std::endl;
+#ifdef NDEBUG
+#define PLUGIN_DEBUG(message) ;
+#else
+#define PLUGIN_DEBUG(message) std::cout << "D [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#endif
+#define PLUGIN_TIMER(__time, __msg) std::cout << "T [" << PLUGIN_PREFIX << "] [" << __time << "] " << __msg << std::endl;
+
+#define PLUGIN_THROW(message)              \
+    {                                      \
+        PLUGIN_ERROR(message);             \
+        throw std::runtime_error(message); \
     }
+} // namespace blackhole

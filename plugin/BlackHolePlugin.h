@@ -20,14 +20,16 @@
 
 #include <plugin/api/Params.h>
 
-#include <brayns/pluginapi/ExtensionPlugin.h>
+#include <platform/core/pluginapi/ExtensionPlugin.h>
 
 namespace blackhole
 {
+using namespace core;
+
 /**
  * @brief This class implements the BlackHolePlugin plugin
  */
-class BlackHolePlugin : public brayns::ExtensionPlugin
+class BlackHolePlugin : public ExtensionPlugin
 {
 public:
     BlackHolePlugin();

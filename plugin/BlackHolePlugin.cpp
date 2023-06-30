@@ -20,30 +20,30 @@
 
 #include <plugin/common/Logs.h>
 
-#include <brayns/common/ActionInterface.h>
-#include <brayns/engineapi/Engine.h>
-#include <brayns/parameters/ParametersManager.h>
-#include <brayns/pluginapi/Plugin.h>
+#include <platform/core/common/ActionInterface.h>
+#include <platform/core/engineapi/Engine.h>
+#include <platform/core/parameters/ParametersManager.h>
+#include <platform/core/pluginapi/Plugin.h>
 
 namespace blackhole
 {
-using namespace brayns;
+using namespace core;
 
 const std::string PLUGIN_VERSION = "0.1.0";
 const std::string PLUGIN_API_PREFIX = "bh_";
 
-#define CATCH_STD_EXCEPTION()                  \
-    catch (const std::runtime_error &e)        \
-    {                                          \
-        response.status = false;               \
-        response.contents = e.what();          \
-        PLUGIN_ERROR << e.what() << std::endl; \
+#define CATCH_STD_EXCEPTION()           \
+    catch (const std::runtime_error &e) \
+    {                                   \
+        response.status = false;        \
+        response.contents = e.what();   \
+        PLUGIN_ERROR << e.what() );     \
     }
 
-void _addBlackHoleRenderer(brayns::Engine &engine)
+void _addBlackHoleRenderer(Engine &engine)
 {
-    PLUGIN_INFO << "Registering 'black_hole_renderer' renderer" << std::endl;
-    brayns::PropertyMap properties;
+    PLUGIN_INFO("Registering 'black_hole_renderer' renderer");
+    PropertyMap properties;
     properties.setProperty({"exposure", 1., 1., 10., {"Exposure"}});
     properties.setProperty({"nbDisks", 20, 2, 128, {"Number of disks"}});
     properties.setProperty({"grid", false, {"Display grid"}});
@@ -67,7 +67,7 @@ void BlackHolePlugin::init()
     if (actionInterface)
     {
         std::string entryPoint = PLUGIN_API_PREFIX + "version";
-        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerRequest<Response>(entryPoint, [&]() { return _version(); });
     }
 
@@ -82,17 +82,17 @@ Response BlackHolePlugin::_version() const
     return response;
 }
 
-extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
+extern "C" ExtensionPlugin *core_plugin_create(int argc, char **argv)
 {
-    PLUGIN_INFO << std::endl;
-    PLUGIN_INFO << "_|_|_|    _|                      _|            _|    _|            _|            " << std::endl;
-    PLUGIN_INFO << "_|    _|  _|    _|_|_|    _|_|_|  _|  _|        _|    _|    _|_|    _|    _|_|    " << std::endl;
-    PLUGIN_INFO << "_|_|_|    _|  _|    _|  _|        _|_|          _|_|_|_|  _|    _|  _|  _|_|_|_|  " << std::endl;
-    PLUGIN_INFO << "_|    _|  _|  _|    _|  _|        _|  _|        _|    _|  _|    _|  _|  _|        " << std::endl;
-    PLUGIN_INFO << "_|_|_|    _|    _|_|_|    _|_|_|  _|    _|      _|    _|    _|_|    _|    _|_|_|  " << std::endl;
-    PLUGIN_INFO << std::endl;
-    PLUGIN_INFO << "Initializing Black Hole plug-in (version " << PLUGIN_VERSION << ")" << std::endl;
-    PLUGIN_INFO << std::endl;
+    PLUGIN_INFO("");
+    PLUGIN_INFO("_|_|_|    _|                      _|            _|    _|            _|          ");
+    PLUGIN_INFO("_|    _|  _|    _|_|_|    _|_|_|  _|  _|        _|    _|    _|_|    _|    _|_|  ");
+    PLUGIN_INFO("_|_|_|    _|  _|    _|  _|        _|_|          _|_|_|_|  _|    _|  _|  _|_|_|_|");
+    PLUGIN_INFO("_|    _|  _|  _|    _|  _|        _|  _|        _|    _|  _|    _|  _|  _|      ");
+    PLUGIN_INFO("_|_|_|    _|    _|_|_|    _|_|_|  _|    _|      _|    _|    _|_|    _|    _|_|_|");
+    PLUGIN_INFO("");
+    PLUGIN_INFO("Initializing Black Hole plug-in (version " << PLUGIN_VERSION << ")");
+    PLUGIN_INFO("");
 
     return new BlackHolePlugin();
 }
